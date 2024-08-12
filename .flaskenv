@@ -1,2 +1,3 @@
 FLASK_APP=sales_tracker
 FLASK_ENV=development
+FLASK_DEBUG=on
