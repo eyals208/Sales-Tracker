@@ -1,1 +1,19 @@
-sales page
+{% from "macros/fields.html" import render_text_field %}
+{% extends "layout.html" %}
+
+{%- block main_content %}
+    <form name="add sale" method="post" novalidate class="form">
+        <div class="form__container">
+            {{ form.hidden_tag() }}
+            {{ render_text_field(form.date)}}
+            {{ render_text_field(form.product)}}
+            {{ render_text_field(form.price)}}
+            {{ render_text_field(form.customer)}}
+            
+            <div>
+                {{ form.submit(class="button button--form") }}
+            </div>
+        </div>
+        
+    </form>
+{% endblock %}
