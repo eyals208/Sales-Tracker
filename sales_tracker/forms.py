@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, FloatField, SubmitField, DateField
-from wtforms.validators import InputRequired, NumberRange
+from wtforms import StringField, FloatField, SubmitField, DateField, EmailField,PasswordField
+from wtforms.validators import InputRequired, NumberRange, Email, Length
 import datetime
 
 class SaleForm(FlaskForm):
@@ -10,4 +10,11 @@ class SaleForm(FlaskForm):
     customer = StringField("Costumer", validators=[InputRequired()])
     details = StringField("details")
     submit = SubmitField("Add sale")
+
+class RegisterForm(FlaskForm):
+    email = EmailField("Email", validators = [InputRequired(), Email(message="Please enter a valid email address")])
+    name = StringField("User name", validators=[InputRequired()])
+    password = PasswordField("Password", validators=[InputRequired(), Length(min=6,max=12,message="Password must have between 6 to 12 characters")])
+    
+    submit = SubmitField("Register")
     
