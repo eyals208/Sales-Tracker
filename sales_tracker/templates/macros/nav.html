@@ -1,0 +1,23 @@
+{% macro header(email,theme) %}
+<header class="header">
+    <div class="nav-container">
+        <a href="{{ url_for('pages.home') }}" class=" header__logo">
+            <!-- add logo --> logo
+        </a>
+        <nav class="nav">
+            {% if not email %}
+                <a href="#" class="nav__link">
+                    <span class="nav__item">log in</span>
+                </a>
+                <a href="{{ url_for('pages.register') }}" class="nav__link">
+                    <span class="nav__item">register</span>
+                </a>
+            {% else %}
+                <a href="{{ url_for('pages.sales') }}" class="nav__link {{'nav__link--active' if request.path == url_for('pages.sales')}}">
+                </a>
+
+            {% endif %}
+        </nav>
+    </div>
+</header>
+{% endmacro %}

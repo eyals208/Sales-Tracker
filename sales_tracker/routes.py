@@ -10,3 +10,7 @@ def home():
 @pages.route("/register")
 def register():
     return render_template("register.html")
+
+@pages.route("/sales")
+def sales():
+    return render_template("sales.html")
