@@ -17,4 +17,10 @@ class RegisterForm(FlaskForm):
     password = PasswordField("Password", validators=[InputRequired(), Length(min=6,max=12,message="Password must have between 6 to 12 characters")])
     
     submit = SubmitField("Register")
+
+class LoginForm(FlaskForm):
+    email = EmailField("Email", validators = [InputRequired(), Email(message="Please enter a valid email address")])
+    password = PasswordField("Password", validators=[InputRequired(), Length(min=6,max=12,message="Password must have between 6 to 12 characters")])
+    
+    submit = SubmitField("Login")
     

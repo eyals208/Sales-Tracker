@@ -6,14 +6,14 @@
         </a>
         <nav class="nav">
             {% if not email %}
-                <a href="#" class="nav__link">
+                <a href="{{ url_for('pages.login') }}" class="nav__link">
                     <span class="nav__item">log in</span>
                 </a>
                 <a href="{{ url_for('pages.register') }}" class="nav__link">
                     <span class="nav__item">register</span>
                 </a>
             {% else %}
-                <a href="{{ url_for('pages.sales') }}" class="nav__link {{'nav__link--active' if request.path == url_for('pages.sales')}}">
+                <a href="{{ url_for('pages.add_sale') }}" class="nav__link {{'nav__link--active' if request.path == url_for('pages.add_sale')}}">
                 </a>
 
             {% endif %}
