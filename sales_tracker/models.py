@@ -7,14 +7,15 @@ class Sale:
     _id : str
     product : str
     cost : float
-    customer : str = ""
     date : date
     upload_time : datetime
+    customer : str = ""
 
 
 @dataclass
 class user_data:
+    _id : str
     name : str
     password : str
     email : str
-    sales : list[Sale] = field(default_factory=list)
+    sales : list[str] = field(default_factory=list)
