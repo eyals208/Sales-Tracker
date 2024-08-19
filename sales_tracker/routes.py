@@ -22,7 +22,7 @@ def home():
 
     if 'email' in session:
         # get data for user from DB
-        return render_template("personal_home.html", name = "Eyal.s")
+        return render_template("personal_home.html", name = session['user_name'])
     
     return render_template("home.html")
 
@@ -54,7 +54,20 @@ def login():
     form = LoginForm()
 
     if form.validate_on_submit():
-        pass
+        email = form.email.data
+        user = current_app.db.user.find_one({"email" : email})
+        if not user:
+            flash("Incorrect user credentails", category= "danger")
+            return redirect(url_for(".login"))
+        user = user_data(**user)
+
+        if user and pbkdf2_sha256.verify(form.password.data , user.password):
+            session['email'] = user.email
+            session['user_name'] = user.name
+            session['user_id'] = user._id
+            return redirect(url_for(".home"))
+        
+        flash("Incorrect user credentails", category= "danger")
 
     return render_template("login.html", form = form)
 

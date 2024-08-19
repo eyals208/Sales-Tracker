@@ -4,6 +4,9 @@
     --font-size-base: 16px;
     --background-color: #f5f5f5;
     --accent-color: #007bff;
+    --text-color: #020202;
+    --danger-color: #c7081b;
+    --success-color: #36fa28;
 }
 
 /* Header styles */
@@ -79,6 +82,22 @@
     font-size: 14px;
     margin-bottom: 0.5rem; /* Remove the margin to bring it closer to the field */
     padding-bottom: 0.5rem; /* Adjust padding to control the space */
+}
+
+.form__flash{
+    display: block;
+    padding: 0.5rem;
+    color: var(--text-color);
+    margin: 0.5rem;
+}
+
+.form__error,
+.form__flash--danger{
+    background: var(--danger-color);
+}
+
+.form__flash--success{
+    background: var(--success-color);
 }
 
 /* Main content styles */
