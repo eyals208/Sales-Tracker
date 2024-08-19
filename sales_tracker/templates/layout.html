@@ -10,7 +10,7 @@
 	{% block head_content %} {% endblock %}
 </head>
 <body>
-	{{header ("","")}}
+	{{header (session.get("email"),session.get("theme"))}}
 	<main class = "main">
 		{%block main_content %} {%endblock%}
 

@@ -71,6 +71,12 @@ def login():
 
     return render_template("login.html", form = form)
 
+@pages.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for(".home"))
+
+
 @pages.route("/add_sale", methods=["GET","POST"])
 def sales():
     form = SaleForm()
