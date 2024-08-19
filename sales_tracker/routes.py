@@ -10,9 +10,10 @@ from flask import(
     url_for, 
     flash
 )
+from datetime import datetime
 from passlib.hash import pbkdf2_sha256
 from sales_tracker.forms import SaleForm, RegisterForm, LoginForm
-from sales_tracker.models import user_data
+from sales_tracker.models import user_data, Sale
 
 pages = Blueprint("pages", __name__, template_folder= "templates", static_folder= "static")
 
@@ -82,6 +83,18 @@ def sales():
     form = SaleForm()
 
     if form.validate_on_submit():
-        pass
+        sale = Sale(
+            _id = uuid.uuid4().hex,
+            product= form.product.data,
+            cost= form.price.data,
+            date= str(form.date.data),
+            upload_time= datetime.now().strftime("%Y-%m-%d, %H:%M:%S"),
+            customer= form.customer.data
+        )
+        
+        current_app.db.sales.insert_one(asdict(sale))
+        current_app.db.user.update_one({"_id" : session["user_id"]}, {"$push" : {"sales" : sale._id}})
+        
+        form = SaleForm()
 
     return render_template("add_sale.html", form = form)

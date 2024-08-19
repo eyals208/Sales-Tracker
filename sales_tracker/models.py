@@ -7,8 +7,8 @@ class Sale:
     _id : str
     product : str
     cost : float
-    date : date
-    upload_time : datetime
+    date : str
+    upload_time : str
     customer : str = ""
 
 
