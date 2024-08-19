@@ -107,6 +107,9 @@
     background-color: white;
     border: 1px solid #ddd;
     border-radius: 5px;
+    
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
 }
 
 /* Button styles */
@@ -131,3 +134,32 @@
     transform: scale(1.05); /* Enlarge the button on hover */
     transition: transform 0.2 ease; /* Add transition effect with delay */
 }
+
+
+/* table__sales */
+.table__sales {
+    border-collapse: collapse;
+    width: 100%;
+    
+    font-family: var(--font-family);
+  }
+  
+  /* table__header */
+  .table__header{
+    background-color: #f2f2f2;
+    padding: 12px;
+    text-align: left;
+    font-weight: bold;
+  }
+  
+  /* table__row */
+  .table__row {
+    border-bottom: 1px solid #ddd;
+  }
+  
+  /* table__data */
+  .table__data {
+    padding: 12px;
+    text-align: left;
+  }
+  

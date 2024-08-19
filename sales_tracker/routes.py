@@ -1,5 +1,6 @@
 from dataclasses import asdict
 import uuid
+import pymongo
 from flask import(
     Blueprint, 
     render_template, 
@@ -10,20 +11,24 @@ from flask import(
     url_for, 
     flash
 )
-from datetime import datetime
+from datetime import datetime, time
 from passlib.hash import pbkdf2_sha256
 from sales_tracker.forms import SaleForm, RegisterForm, LoginForm
 from sales_tracker.models import user_data, Sale
 
 pages = Blueprint("pages", __name__, template_folder= "templates", static_folder= "static")
 
+MAX_RECENT_SALES = 5
 
 @pages.route("/")
 def home():
 
     if 'email' in session:
         # get data for user from DB
-        return render_template("personal_home.html", name = session['user_name'])
+        user = user_data(**current_app.db.user.find_one({"_id" : session['user_id']}))
+        user_sales = current_app.db.sales.find({"_id" : {"$in" : user.sales}}, limit = MAX_RECENT_SALES, sort = {"date" : pymongo.DESCENDING})
+
+        return render_template("personal_home.html", name = session['user_name'], sales = user_sales )
     
     return render_template("home.html")
 
@@ -87,8 +92,8 @@ def sales():
             _id = uuid.uuid4().hex,
             product= form.product.data,
             cost= form.price.data,
-            date= str(form.date.data),
-            upload_time= datetime.now().strftime("%Y-%m-%d, %H:%M:%S"),
+            date= datetime.combine(form.date.data, time.min),
+            upload_time= datetime.now(),
             customer= form.customer.data
         )
         
