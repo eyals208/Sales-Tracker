@@ -1,0 +1,7 @@
+{% macro flash() %}
+	{% with messages = get_flashed_messages(with_categories=true) %}
+		{%- for category, message in messages %}
+			<span class="flash form__flash form__flash--{{category}}">{{message}}</span>
+		{% endfor %}
+	{% endwith %}
+{% endmacro %}
