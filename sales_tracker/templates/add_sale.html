@@ -1,7 +1,9 @@
 {% from "macros/fields.html" import render_text_field %}
+{% from 'macros/flash.html' import flash  %}
 {% extends "layout.html" %}
 
 {%- block main_content %}
+	{{ flash() }}
     <form name="add sale" method="post" novalidate class="form">
         <div class="form__container">
             {{ form.hidden_tag() }}

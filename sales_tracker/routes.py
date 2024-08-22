@@ -100,6 +100,8 @@ def sales():
         current_app.db.sales.insert_one(asdict(sale))
         current_app.db.user.update_one({"_id" : session["user_id"]}, {"$push" : {"sales" : sale._id}})
         
-        form = SaleForm()
+        form_new = SaleForm(formdata = None)
+        flash("Added successfully","success")
+        return render_template("add_sale.html", form = form_new)
 
     return render_template("add_sale.html", form = form)
