@@ -105,3 +105,8 @@ def sales():
         return render_template("add_sale.html", form = form_new)
 
     return render_template("add_sale.html", form = form)
+
+@pages.route("/sales_view")
+def sales_view():
+    
+	return render_template("sales_view.html")
