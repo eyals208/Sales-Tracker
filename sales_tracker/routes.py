@@ -15,18 +15,19 @@ from datetime import datetime, time
 from passlib.hash import pbkdf2_sha256
 from sales_tracker.forms import SaleForm, RegisterForm, LoginForm
 from sales_tracker.models import user_data, Sale
+import sales_tracker.mongo as mongo
 
 pages = Blueprint("pages", __name__, template_folder= "templates", static_folder= "static")
 
-MAX_RECENT_SALES = 5
+MAX_RECENT_SALES = 7
 
 @pages.route("/")
 def home():
 
     if 'email' in session:
         # get data for user from DB
-        user = user_data(**current_app.db.user.find_one({"_id" : session['user_id']}))
-        user_sales = current_app.db.sales.find({"_id" : {"$in" : user.sales}}, limit = MAX_RECENT_SALES, sort = {"date" : pymongo.DESCENDING})
+        user = user_data(**mongo.get_user(current_app.db, user_id = session['user_id']))
+        user_sales = mongo.get_user_sales(current_app.db, user.sales, max_sales = MAX_RECENT_SALES)
 
         return render_template("personal_home.html", name = session['user_name'], sales = user_sales )
     
@@ -48,7 +49,7 @@ def register():
             password= pbkdf2_sha256.hash(form.password.data)
         )
         
-        current_app.db.user.insert_one(asdict(user))
+        mongo.add_new_user(current_app.db, user)
         flash("Successfully registered","success")
 
         return redirect(url_for(".home"))
@@ -61,7 +62,7 @@ def login():
 
     if form.validate_on_submit():
         email = form.email.data
-        user = current_app.db.user.find_one({"email" : email})
+        user = mongo.get_user(current_app.db, email = email)
         if not user:
             flash("Incorrect user credentails", category= "danger")
             return redirect(url_for(".login"))
@@ -97,8 +98,7 @@ def sales():
             customer= form.customer.data
         )
         
-        current_app.db.sales.insert_one(asdict(sale))
-        current_app.db.user.update_one({"_id" : session["user_id"]}, {"$push" : {"sales" : sale._id}})
+        mongo.add_sale(current_app.db, sale, session['user_id'])
         
         form_new = SaleForm(formdata = None)
         flash("Added successfully","success")
