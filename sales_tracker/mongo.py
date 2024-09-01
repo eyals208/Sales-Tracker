@@ -58,7 +58,7 @@ def get_user_sales(mongo_client : Database, sales_ids, **kwargs):
         return mongo_client.sales.find({"_id" : {"$in" : sales_ids}}, limit = kwargs['max_sales'], sort = {"date" : pymongo.DESCENDING})
     
     if 'start_date' in kwargs and 'end_date' in kwargs:
-        query = {"_id" : {"$in" : sales_ids}, "date" : {"$gte" : kwargs['start_date'], "$lte" : kwargs['end_date']}}
+        query = {"_id" : {"$in" : sales_ids}, "date" : {"$gte" : kwargs['start_date'], "$lt" : kwargs['end_date']}}
         return mongo_client.sales.find(query, sort = {"date" : pymongo.DESCENDING})
 
 
