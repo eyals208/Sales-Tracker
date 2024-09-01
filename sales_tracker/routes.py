@@ -106,7 +106,17 @@ def sales():
 
     return render_template("add_sale.html", form = form)
 
-@pages.route("/sales_view")
-def sales_view():
+@pages.route("/sales_view/<year>/<month>", methods = ["GET","POST"])
+def sales_view(year = 0, month = 0):
+    if year == 0:
+        year = datetime.now().year
+        month = datetime.now().month
+
+    year = int(year)
+    month = int(month)
+    start_date = datetime(year,month,1)
+    end_date = datetime(year,month+1,1)
+    user = user_data(**mongo.get_user(current_app.db, user_id =  session['user_id']))
+    sales = mongo.get_user_sales(current_app.db, user.sales, start_date = start_date, end_date = end_date)
     
-	return render_template("sales_view.html")
+    return render_template("sales_view.html", month = start_date.strftime("%B"), sales = sales)
