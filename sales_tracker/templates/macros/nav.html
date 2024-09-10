@@ -19,7 +19,9 @@
                 <a href="{{ url_for('pages.sales') }}" class="nav__link {{'nav__link--active' if request.path == url_for('pages.sales')}}">
                     <span class="nav__item">add sales</span>
                 </a>
-
+                <a href="{{ url_for('pages.sales_view') }}" class="nav__link {{'nav__link--active' if request.path == url_for('pages.sales_view')}}">
+                    <span class="nav__item">sales history</span>
+                </a>
 
             {% endif %}
         </nav>
