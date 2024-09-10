@@ -42,7 +42,7 @@
     color: white;
 }
 
-.nav__item--active {
+.nav__link--active {
     font-weight: bold;
     border-bottom: 2px solid white;
 }
