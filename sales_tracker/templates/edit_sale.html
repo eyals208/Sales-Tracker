@@ -1,0 +1,33 @@
+{% from "macros/fields.html" import render_text_field %}
+{% from 'macros/flash.html' import flash  %}
+{% extends "layout.html" %}
+
+{%- block main_content %}
+	{{ flash() }}
+    <div>
+        {% if form %}
+
+        <form name="update sale" method="post" novalidate class="form">
+            <div class="form__container">
+                {{ form.hidden_tag() }}
+                {{ render_text_field(form.date)}}
+                {{ render_text_field(form.product)}}
+                {{ render_text_field(form.price)}}
+                {{ render_text_field(form.customer)}}
+                {{ render_text_field(form.details)}}
+                
+                <div class="button--row">
+                    {{ form.submit(class="button button--form") }}
+                    <div class="button">
+                        <a class="button--form button--delete" href="{{url_for('pages.delete_sale', _id=sale_id)}}">delete sale</a>
+                    </div>
+                </div>
+            </div>
+            
+        </form>
+
+        {% else %}
+            <h6>Sale not found</h6>
+        {% endif %}
+    </div>
+{% endblock %}

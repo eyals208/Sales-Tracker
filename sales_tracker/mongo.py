@@ -60,6 +60,17 @@ def get_user_sales(mongo_client : Database, sales_ids, **kwargs):
     if 'start_date' in kwargs and 'end_date' in kwargs:
         query = {"_id" : {"$in" : sales_ids}, "date" : {"$gte" : kwargs['start_date'], "$lt" : kwargs['end_date']}}
         return mongo_client.sales.find(query, sort = {"date" : pymongo.DESCENDING})
+    
+def is_user_sale(mongo_client : Database, user_id, sale_id):
+    '''
+        checks if the given sale_id belongs to the given user_id.
+        Returns true is belongs to the user, false otherwise
+    '''
+    user = mongo_client.user.find_one({'_id' : user_id},{'sales':1})
+    if user:
+        return sale_id in user['sales']
+    
+    return False
 
 
 def add_sale(mongo_client : Database, sale , user_id):
@@ -86,6 +97,12 @@ def delete_sale(mongo_client : Database, sale_id, user_id):
     if result.modified_count != 1:
         raise Exception(f'Document not found (id: {user_id}) or sale not deleted (id: {sale_id})')
     
+def get_sale(mongo_client : Database, sale_id):
+    '''
+        Gets a sale by id
+    '''
+    return mongo_client.sales.find_one({'_id' : sale_id})
+
 
 def delete_sales(mongo_client : Database, sales_ids, user_id):
     '''
@@ -96,3 +113,12 @@ def delete_sales(mongo_client : Database, sales_ids, user_id):
     result = mongo_client.user.update_one({"_id" : user_id}, {"$pull" : {"sales" : {"$in" :sales_ids}}} )
     if result.modified_count != 1:
         raise Exception(f'Document not found (id: {user_id}) or sale not deleted (ids: {sales_ids})')
+    
+
+def update_sale(mongo_client : Database, sale):
+    '''
+        Updates the given sale with the new data.
+        Returns True is successfull, False otherwise
+    '''
+    result = mongo_client.sales.update_one({"_id" : sale._id},{"$set" : asdict(sale)})
+    return bool(result.modified_count)

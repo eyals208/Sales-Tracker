@@ -11,6 +11,10 @@ class SaleForm(FlaskForm):
     details = StringField("details")
     submit = SubmitField("Add sale")
 
+class ExtendedSaleForm(SaleForm):
+    upload_time = DateField("Upload Date")
+    submit = SubmitField("Update")
+
 class RegisterForm(FlaskForm):
     email = EmailField("Email", validators = [InputRequired(), Email(message="Please enter a valid email address")])
     name = StringField("User name", validators=[InputRequired()])

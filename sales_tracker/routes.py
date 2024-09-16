@@ -13,7 +13,7 @@ from flask import(
 )
 from datetime import datetime, time
 from passlib.hash import pbkdf2_sha256
-from sales_tracker.forms import SaleForm, RegisterForm, LoginForm
+from sales_tracker.forms import ExtendedSaleForm, SaleForm, RegisterForm, LoginForm
 from sales_tracker.models import user_data, Sale
 import sales_tracker.mongo as mongo
 
@@ -92,7 +92,7 @@ def sales():
         sale = Sale(
             _id = uuid.uuid4().hex,
             product= form.product.data,
-            cost= form.price.data,
+            price= form.price.data,
             date= datetime.combine(form.date.data, time.min),
             upload_time= datetime.now(),
             customer= form.customer.data
@@ -130,3 +130,52 @@ def sales_view():
     sales = mongo.get_user_sales(current_app.db, user.sales, start_date = start_date, end_date = end_date)
     
     return render_template("sales_view.html", month = start_date.strftime("%B"), sales = sales,date = {'month': month, 'year':year})
+
+@pages.route("/edit_sale/<string:_id>", methods = ["GET","POST"])
+def edit_sale(_id: str):
+
+    if not _id:
+        flash("Error: Sale not found")
+        return redirect(url_for('.home'))
+    
+    #check that the sale belongs to the login user for security
+    is_belongs_to_user = mongo.is_user_sale(current_app.db,session['user_id'],_id)
+    if not is_belongs_to_user:
+        flash("Error: You can only edit your sales, please try again later")
+        return redirect(url_for(".home"))
+
+    sale = mongo.get_sale(current_app.db, _id)
+    sale = Sale(**sale)
+    form = ExtendedSaleForm(obj = sale)
+
+    if form.validate_on_submit():
+        sale.product= form.product.data
+        sale.price= form.price.data
+        sale.date= datetime.combine(form.date.data, time.min)
+        sale.customer = form.customer.data
+        sale.details = form.details.data
+
+        if not mongo.update_sale(current_app.db, sale):
+            flash('failed to update the sale')
+        return redirect(url_for(".sales_view", month = sale.date.month, year = sale.date.year))
+    elif request.method == "POST":
+        flash('form failed to vlaidate on submit')
+
+    return render_template('edit_sale.html',form = form, sale_id = sale._id)
+
+
+@pages.route("/delete_sale/<string:_id>")
+def delete_sale(_id : str):
+    if not _id:
+        flash("Error: Sale not found")
+        return redirect(url_for('.home'))
+    
+    #check that the sale belongs to the login user for security
+    is_belongs_to_user = mongo.is_user_sale(current_app.db,session['user_id'],_id)
+    if not is_belongs_to_user:
+        flash("Error: You can only edit your sales, please try again later")
+        return redirect(url_for(".home"))
+    
+    mongo.delete_sale(current_app.db, _id, session['user_id'])
+    
+    return redirect(url_for('.sales_view'))

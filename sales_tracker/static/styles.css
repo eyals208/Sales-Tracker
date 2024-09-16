@@ -112,6 +112,11 @@
     font-size: var(--font-size-base);
 }
 
+.button--row{
+    display: flex;
+    justify-content: space-between;
+}
+
 /* Button styles */
 .button,
 .button--form {
@@ -122,11 +127,17 @@
     border-radius: 3px;
     cursor: pointer;
     transition: transform 0.2s ease; /* Add transition effect for smooth scaling */
+    text-decoration: none;
 }
 
 .button--form {
     background-color: var(--accent-color);
     color: white;
+}
+
+.button--delete{
+    background-color: var(--danger-color);
+
 }
 
 /* Hover effect for buttons */

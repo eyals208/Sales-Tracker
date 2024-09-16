@@ -6,10 +6,11 @@ from datetime import datetime, date
 class Sale:
     _id : str
     product : str
-    cost : float
+    price : float
     date : datetime
     upload_time : datetime
     customer : str = ""
+    details :str = ""
 
 
 @dataclass

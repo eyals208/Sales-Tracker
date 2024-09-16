@@ -9,12 +9,14 @@
             <th class="table__header">Product</th>
             <th class="table__header">price</th>
             <th class="table__header">date</th>
+            <th class="table__header">Link</th>
         </tr>
         {% for sale in sales %}
             <tr class="table__row">
                 <td class="table__data"> {{sale.product}} </td>
-                <td class="table__data"> {{sale.cost}} </td>
+                <td class="table__data"> {{sale.price}} </td>
                 <td class="table__data"> {{sale.date.date()}} </td>
+                <td class="table__data"> <a href="{{url_for('pages.edit_sale', _id = sale._id)}}">link</a> </td>
             </tr>            
         {% endfor %}
     </table>
