@@ -1,4 +1,5 @@
 from dataclasses import asdict
+import functools
 import uuid
 import pymongo
 from flask import(
@@ -20,6 +21,15 @@ import sales_tracker.mongo as mongo
 pages = Blueprint("pages", __name__, template_folder= "templates", static_folder= "static")
 
 MAX_RECENT_SALES = 7
+
+def login_required(route):
+    @functools.wraps(route)
+    def route_wrapper(*args, **kwargs):
+        email = session.get("email")
+        if not email:
+            return redirect(url_for('.login'))
+        return route(*args, **kwargs)
+    return route_wrapper
 
 @pages.route("/")
 def home():
@@ -85,6 +95,7 @@ def logout():
 
 
 @pages.route("/add_sale", methods=["GET","POST"])
+@login_required
 def sales():
     form = SaleForm()
 
@@ -108,6 +119,7 @@ def sales():
 
 
 @pages.route("/sales_view", methods = ["GET","POST"])
+@login_required
 def sales_view():
 
     month = request.args.get('month')
@@ -132,6 +144,7 @@ def sales_view():
     return render_template("sales_view.html", month = start_date.strftime("%B"), sales = sales,date = {'month': month, 'year':year})
 
 @pages.route("/edit_sale/<string:_id>", methods = ["GET","POST"])
+@login_required
 def edit_sale(_id: str):
 
     if not _id:
@@ -165,6 +178,7 @@ def edit_sale(_id: str):
 
 
 @pages.route("/delete_sale/<string:_id>")
+@login_required
 def delete_sale(_id : str):
     if not _id:
         flash("Error: Sale not found")
