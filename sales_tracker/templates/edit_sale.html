@@ -3,12 +3,13 @@
 {% extends "layout.html" %}
 
 {%- block main_content %}
+<div class="container-xl">
 	{{ flash() }}
     <div>
         {% if form %}
-
+        <h2 class="text-center">Edit Sale</h2>
         <form name="update sale" method="post" novalidate class="form">
-            <div class="form__container">
+            <div class="mb-4">
                 {{ form.hidden_tag() }}
                 {{ render_text_field(form.date)}}
                 {{ render_text_field(form.product)}}
@@ -16,11 +17,10 @@
                 {{ render_text_field(form.customer)}}
                 {{ render_text_field(form.details)}}
                 
-                <div class="button--row">
-                    {{ form.submit(class="button button--form") }}
-                    <div class="button">
-                        <a class="button--form button--delete" href="{{url_for('pages.delete_sale', _id=sale_id)}}">delete sale</a>
-                    </div>
+                <div class="my-4 d-md-flex justify-content-between">
+                    {{ form.submit(class="btn btn-primary") }}
+                    <a class="btn btn-danger" href="{{url_for('pages.delete_sale', _id=sale_id)}}" role="button">delete sale</a>
+                    
                 </div>
             </div>
             
@@ -30,4 +30,5 @@
             <h6>Sale not found</h6>
         {% endif %}
     </div>
+</div>
 {% endblock %}

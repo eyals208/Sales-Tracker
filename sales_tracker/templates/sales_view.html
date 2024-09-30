@@ -1,39 +1,52 @@
 {% extends 'layout.html' %}
 
 {%- block main_content %}
-	<h1 class="title">Sales</h1>
-	<h2>{{month}}</h2>
-	<table class="table__sales">
-        <tr class="table__row table__row--header">
-            <!--generate headers-->
-            <th class="table__header">Product</th>
-            <th class="table__header">price</th>
-            <th class="table__header">date</th>
-            <th class="table__header">Link</th>
-        </tr>
-        {% for sale in sales %}
-            <tr class="table__row">
-                <td class="table__data"> {{sale.product}} </td>
-                <td class="table__data"> {{sale.price}} </td>
-                <td class="table__data"> {{sale.date.date()}} </td>
-                <td class="table__data"> <a href="{{url_for('pages.edit_sale', _id = sale._id)}}">link</a> </td>
-            </tr>            
-        {% endfor %}
-    </table>
+<div class="container-xl">
 
+        <h1 class="title">Sales</h1>
+        <h4>{{month}} | {{date['year']}}</h4>
         
-    <div>
-    {% if date['month'] == 12 %}
-            <a class="button__next" href = "{{url_for('pages.sales_view')}}?year={{date['year'] +1}}&month=1">next month</a>        
-    {% else %}
-            <a class="button__next" href = "{{url_for('pages.sales_view')}}?year={{date['year']}}&month={{date['month'] + 1}}">next month</a>
-    {% endif %}
-    
-    {% if date['month'] == 1 %}
-            <a class="button__next" href = "{{url_for('pages.sales_view')}}?year={{date['year'] -1}}&month=12">previous month</a>        
-    {% else %}
-            <a class="button__next" href = "{{url_for('pages.sales_view')}}?year={{date['year']}}&month={{date['month'] - 1}}">previous month</a>
-    {% endif %}
-            
-    </div>
+        <div class="container">
+                {% if date['month'] == 12 %}
+                <a class="btn btn-primary" href="{{url_for('pages.sales_view', year=date['year'] +1, month=1)}}">next
+                        month</a>
+                {% else %}
+                <a class="btn btn-primary"
+                        href="{{url_for('pages.sales_view', year=date['year'], month=date['month'] + 1)}}">next
+                        month</a>
+                {% endif %}
+
+                {% if date['month'] == 1 %}
+                <a class="btn btn-secondary"
+                        href="{{url_for('pages.sales_view',year=date['year']-1 ,month=12)}}">previous month</a>
+                {% else %}
+                <a class="btn btn-secondary"
+                        href="{{url_for('pages.sales_view',year=date['year'], month=date['month'] - 1)}}">previous
+                        month</a>
+                {% endif %}
+
+        </div>
+
+        <table class="table table-striped">
+                <thead>
+                        <tr>
+                                <!--generate headers-->
+                                <th scope="col">Product</th>
+                                <th scope="col">price</th>
+                                <th scope="col">date</th>
+                                <th scope="col">Edit</th>
+                        </tr>
+                </thead>
+                <tbody>
+                        {% for sale in sales %}
+                        <tr>
+                                <td> {{sale.product}} </td>
+                                <td> {{sale.price}} </td>
+                                <td> {{sale.date.date()}} </td>
+                                <td> <a class="btn btn-info" href="{{url_for('pages.edit_sale', _id = sale._id)}}">link</a> </td>
+                        </tr>
+                        {% endfor %}
+                </tbody>
+        </table>
+</div>
 {% endblock %}

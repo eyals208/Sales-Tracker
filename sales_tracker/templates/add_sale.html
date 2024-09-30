@@ -3,9 +3,11 @@
 {% extends "layout.html" %}
 
 {%- block main_content %}
+<div class="container-xl">
+    <h2 class="text-center">Add New Sale</h2>
 	{{ flash() }}
     <form name="add sale" method="post" novalidate class="form">
-        <div class="form__container">
+        <div class="mb-4">
             {{ form.hidden_tag() }}
             {{ render_text_field(form.date)}}
             {{ render_text_field(form.product)}}
@@ -13,9 +15,10 @@
             {{ render_text_field(form.customer)}}
             
             <div>
-                {{ form.submit(class="button button--form") }}
+                {{ form.submit(class="btn btn-primary my-4") }}
             </div>
         </div>
         
     </form>
+</div>
 {% endblock %}

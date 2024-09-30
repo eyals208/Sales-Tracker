@@ -3,19 +3,21 @@
 {% extends "layout.html" %}
 
 {%- block main_content %}
+<div class="container-xl">
     <h1 class="title">Login</h1>
     <form name="login" method="post" novalidate class="form">
 		{{ flash() }}
 
-        <div class="form__container">
+        <div class="mb-4">
             {{ form.hidden_tag() }}
             {{ render_text_field(form.email)}}
             {{ render_text_field(form.password)}}
             
             <div>
-                {{ form.submit(class="button button--form") }}
+                {{ form.submit(class="btn btn-primary my-4") }}
             </div>
         </div>
         
     </form>
+</div>
 {% endblock %}

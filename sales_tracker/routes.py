@@ -113,6 +113,7 @@ def sales():
         
         form_new = SaleForm(formdata = None)
         flash("Added successfully","success")
+        return redirect(url_for(".home"))
         return render_template("add_sale.html", form = form_new)
 
     return render_template("add_sale.html", form = form)
@@ -148,13 +149,13 @@ def sales_view():
 def edit_sale(_id: str):
 
     if not _id:
-        flash("Error: Sale not found")
+        flash("Error: Sale not found","warning")
         return redirect(url_for('.home'))
     
     #check that the sale belongs to the login user for security
     is_belongs_to_user = mongo.is_user_sale(current_app.db,session['user_id'],_id)
     if not is_belongs_to_user:
-        flash("Error: You can only edit your sales, please try again later")
+        flash("Error: You can only edit your sales, please try again later","warning")
         return redirect(url_for(".home"))
 
     sale = mongo.get_sale(current_app.db, _id)
@@ -169,10 +170,10 @@ def edit_sale(_id: str):
         sale.details = form.details.data
 
         if not mongo.update_sale(current_app.db, sale):
-            flash('failed to update the sale')
+            flash('failed to update the sale',"danger")
         return redirect(url_for(".sales_view", month = sale.date.month, year = sale.date.year))
     elif request.method == "POST":
-        flash('form failed to vlaidate on submit')
+        flash('form failed to vlaidate on submit',"warning")
 
     return render_template('edit_sale.html',form = form, sale_id = sale._id)
 
@@ -181,13 +182,13 @@ def edit_sale(_id: str):
 @login_required
 def delete_sale(_id : str):
     if not _id:
-        flash("Error: Sale not found")
+        flash("Error: Sale not found","danger")
         return redirect(url_for('.home'))
     
     #check that the sale belongs to the login user for security
     is_belongs_to_user = mongo.is_user_sale(current_app.db,session['user_id'],_id)
     if not is_belongs_to_user:
-        flash("Error: You can only edit your sales, please try again later")
+        flash("Error: You can only edit your sales, please try again later","danger")
         return redirect(url_for(".home"))
     
     mongo.delete_sale(current_app.db, _id, session['user_id'])
