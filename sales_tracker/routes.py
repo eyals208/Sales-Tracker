@@ -171,6 +171,9 @@ def edit_sale(_id: str):
 
         if not mongo.update_sale(current_app.db, sale):
             flash('failed to update the sale',"danger")
+        else:
+            flash('Updated successfully','success')
+
         return redirect(url_for(".sales_view", month = sale.date.month, year = sale.date.year))
     elif request.method == "POST":
         flash('form failed to vlaidate on submit',"warning")
@@ -192,5 +195,5 @@ def delete_sale(_id : str):
         return redirect(url_for(".home"))
     
     mongo.delete_sale(current_app.db, _id, session['user_id'])
-    
+    flash('Deleted successfully','warning')
     return redirect(url_for('.sales_view'))

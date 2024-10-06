@@ -1,6 +1,8 @@
+{% from "macros/flash.html" import flash %}
 {% extends 'layout.html' %}
 
 {%- block main_content %}
+{{ flash() }}
 <div class="container-xl">
 
         <h1 class="title">Sales</h1>
