@@ -1,45 +1,56 @@
 {% macro header(email,theme) %}
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-        <ul class="navbar-nav">
-        
-            <li class="nav-item">
+<nav class="navbar navbar-expand-sm bg-body-tertiary">
+    <div class="container-fluid ">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 
-                <a href="{{ url_for('pages.home') }}" class="nav-link">
-                    <!-- add logo --> Home
-                </a>
-            </li>
-            
-            {% if not email %}
-            
-            <li class="nav-item">
-                <a href="{{ url_for('pages.login') }}" class="nav-link">log in</a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ url_for('pages.register') }}" class="nav-link">register</a>
-            </li>
-            
-            {% else %}
-            
-            <li class="nav-item">
-                <a href="{{ url_for('pages.logout') }}" class="nav-link {{'active' if request.path == url_for('pages.logout')}}">logout</a>
-            </li>
-            
-            <li class="nav-item">
-                <a href="{{ url_for('pages.sales') }}" class="nav-link {{'active' if request.path == url_for('pages.sales')}}">
-                    <span class="nav__item">add sales</span>
-                </a>
-            </li>
-            
-            <li class="nav-item">
-                <a href="{{ url_for('pages.sales_view') }}" class="nav-link {{'active' if request.path == url_for('pages.sales_view')}}">
-                    <span class="nav__item">sales history</span>
-                </a>
-            </li>
-            
-            {% endif %}
-            
-        </ul>
+                <li class="nav-item">
+                    
+                    <a href="{{ url_for('pages.home') }}" class="nav-link">
+                        <!-- add logo --> Home
+                    </a>
+                </li>
+
+                {% if email %}
+                    
+                    <li class="nav-item">
+                        <a href="{{ url_for('pages.sales') }}" class="nav-link {{'active' if request.path == url_for('pages.sales')}}">
+                            <span class="nav__item">add sales</span>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a href="{{ url_for('pages.sales_view') }}" class="nav-link {{'active' if request.path == url_for('pages.sales_view')}}">
+                            <span class="nav__item">sales history</span>
+                        </a>
+                    </li>
+                    
+                {% endif %}
+            </ul>
+
+            <ul class="navbar-nav">
+                {% if not email %}
+                
+                <li class="nav-item">
+                    <a href="{{ url_for('pages.login') }}" class="nav-link">log in</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('pages.register') }}" class="nav-link">register</a>
+                </li>
+                
+                {% else %}
+                
+                <li class="nav-item">
+                    <a href="{{ url_for('pages.logout') }}" class="nav-link {{'active' if request.path == url_for('pages.logout')}}">logout</a>
+                </li>
+                
+                {% endif %}
+                
+            </ul>
+        </div>
     </div>
 </nav>
 {% endmacro %}
