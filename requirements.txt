@@ -6,3 +6,4 @@ dataclasses
 passlib
 email_validator
 flask-security
+gunicorn
