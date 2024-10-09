@@ -62,6 +62,11 @@ def register():
         mongo.add_new_user(current_app.db, user)
         flash("Successfully registered","success")
 
+        #login user
+        session['email'] = user.email
+        session['user_name'] = user.name
+        session['user_id'] = user._id
+
         return redirect(url_for(".home"))
 
     return render_template("register.html", form = form)
