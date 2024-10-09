@@ -1,6 +1,10 @@
 {% from 'macros/flash.html' import flash  %}
 {% extends "layout.html" %}
 
+{%- block head_content %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='home_styles.css')}}">
+{% endblock head_content %}
+
 {%- block main_content%}
 <div class="container-xl">
 
@@ -28,6 +32,8 @@
         </tbody>
     </table>
     <!-- button to go to all sales (different page)-->
-    <!-- add sale button (go to add_sale page) -->
+    <div class="fixed-bottom d-flex justify-content-end">
+        <a class="btn btn-primary m-5" role="button" href="{{ url_for('pages.sales') }}">add sale</a>
+    </div>
 </div>
 {% endblock %}

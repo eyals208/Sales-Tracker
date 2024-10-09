@@ -1,0 +1,25 @@
+.add-button{
+    position: absolute;
+    bottom: 4rem;
+    right: 2rem;
+    height: 5rem;
+    width: 5rem;
+    text-decoration: none;
+    border-radius: 50%;
+    font-weight: 600;
+    font-size: 2.5rem;
+    align-items: center;
+    justify-content: center;
+}
+
+@media screen and (min-width: 50em){
+    .add-button{
+        right: 3rem;
+    }
+}
+
+@media screen and (min-width: 80em){
+    .add-button{
+        right: 4rem;
+    }
+}
