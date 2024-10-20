@@ -3,7 +3,22 @@
 {%- block main_content %}
 	<div class="container-xl text-center">
 		<h1 class="title">Home page</h1>
-		<p class="description">Enjoy free and simple solution to track your sales</p>
-		<a class="btn btn-primary" href=" {{ url_for('pages.register') }} " role="button">Register</a>
+		<div class="text-start">
+
+			<p>Hi there! I'm Eyal Srugo, a passionate backend developer with a knack for building efficient and user-friendly applications.</p>
+			<p>This sales tracker app is a project I've built to showcase my skills in backend development, utilizing a combination of Python, Flask, MongoDB, HTML5, Jinja2, and Bootstrap CSS. With this tool, you can easily:</p>
+			<ul>
+				<li>Create an account and log in to track your sales.</li>
+				<li>Add new sales records with just a few clicks.</li>
+				<li>View your sales history in a clear and organized format.</li>
+				<li>Edit or delete existing sales records as needed.</li>
+			</ul>	
+			<p>
+				I'm committed to delivering high-quality software that solves real-world problems. If you're interested in learning more about my skills or discussing potential projects, please feel free to contact me on 
+				<a href="https://www.linkedin.com/in/eyal-srugo-81a678172">LinkedIn</a>
+			</p>		
+		</div>
+			
+		<a class="btn btn-primary mb-2" href=" {{ url_for('pages.register') }} " role="button">Register</a>
 	</div>
 {% endblock %}
