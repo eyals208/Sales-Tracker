@@ -12,25 +12,28 @@
     {{ flash() }}
     <!-- table of recent sales -->
     <h2>Recent sales</h2>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <!--generate headers-->
-                <th scope="col">Product</th>
-                <th scope="col">price</th>
-                <th scope="col">date</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for sale in sales %}
-            <tr>
-                <td> {{sale.product}} </td>
-                <td> {{sale.price}} </td>
-                <td> {{sale.date.date()}} </td>
-            </tr>            
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="h-100 d-flex flex-column overflow-auto" style="max-height: 50vh;">
+        
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <!--generate headers-->
+                    <th scope="col">Product</th>
+                    <th scope="col">price</th>
+                    <th scope="col">date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sale in sales %}
+                <tr>
+                    <td> {{sale.product}} </td>
+                    <td> {{sale.price}} </td>
+                    <td> {{sale.date.date()}} </td>
+                </tr>            
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
     <!-- button to go to all sales (different page)-->
     <div class="fixed-bottom d-flex justify-content-end">
         <a class="btn btn-primary m-5" role="button" href="{{ url_for('pages.sales') }}">add sale</a>

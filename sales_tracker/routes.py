@@ -20,7 +20,7 @@ import sales_tracker.mongo as mongo
 
 pages = Blueprint("pages", __name__, template_folder= "templates", static_folder= "static")
 
-MAX_RECENT_SALES = 7
+MAX_RECENT_SALES = 20
 
 def login_required(route):
     @functools.wraps(route)
